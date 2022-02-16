@@ -4,7 +4,7 @@ Took below courses and summarized.
 
 - [GitHub Actions Tutorial - Basic Concepts and CI/CD Pipeline with Docker (ENG)](https://youtu.be/R8_veQiYBjI)
 - [GitHub Actions for development cycle automation (KOR)](https://youtu.be/MhGpFunlmMQ)
-
+- [Master GitHub Actions (ENG)](https://youtu.be/FsOtTYJ8KhQ)
 
 ## Basic Concepts and CI/CD Pipeline with Docker
 <p>
@@ -187,7 +187,7 @@ The main terms of Github actions are as follows.
 
 <img src="../reference/branch-policy-set2.png" alt="include administrator" width=1000 height=600 />
 
-You can check direct commit to main branch is blocked now. 
+You can check that direct commit to main branch is blocked now. 
 
 <img src="../reference/direct-commit-blocked.png" alt="include administrator" width=1000 height=530 />
 
@@ -197,3 +197,7 @@ You can check direct commit to main branch is blocked now.
 2. Search and find what you feel like. In this tutorial, we will use 'Label approved pull requests'.
 
 <img src="../reference/label-pull.png" alt="github marketplace" width=1000 height=600 />
+
+
+## Master GitHub Actions
+content will be added
