@@ -12,10 +12,6 @@ This is a open code box of developerasun, containing the sum of his blood, sweat
 - docs: readme and other markdowns
 </details>
 
-## Working on
-- Currently focusing on : React, Typescript, Redux
-- Should work on : regular expression
-
 ## Inputs
 
 <details>
@@ -29,27 +25,6 @@ This is a open code box of developerasun, containing the sum of his blood, sweat
   <summary>✅Backend</summary>
 
 - myJavascript
- 
-</details>
-
-<details>
-  <summary>✅Deploy</summary>
-
-- myCloud, myDeploy
- 
-</details>
-
-<details>
-  <summary>✅Teamwork</summary>
-
-- myCollaboration
- 
-</details>
-
-<details>
-  <summary>✅Computer Science</summary>
-
-- myCSknowledge
  
 </details>
 
@@ -93,15 +68,6 @@ https://user-images.githubusercontent.com/83855174/148180423-bb9b98ce-be5e-49b3-
 - Netlify serverless
 
 https://user-images.githubusercontent.com/83855174/148397581-6bd6ccef-3d55-4e3a-abc2-9485c9a1eff2.mp4
-  
-</details>
-
-<details>
-  <summary>✅Unity</summary>
-
-- [Jumping Car](https://simmer.io/@developerasun/jumpingcar2)
-
-https://user-images.githubusercontent.com/83855174/149626441-13895188-baf7-4561-8b6a-23fd59d67749.mp4
   
 </details>
 
