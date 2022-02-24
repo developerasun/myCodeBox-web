@@ -86,5 +86,18 @@ module.exports = function (options) {
 }
 ```
 
+## CORS configuration in Express app
+### Configuration Options
+1. origin: Configures the Access-Control-Allow-Origin CORS header.
+
+1. methods: Configures the Access-Control-Allow-Methods CORS header. Expects a comma-delimited string (ex: ‘GET,PUT,POST’) or an array (ex: ['GET', 'PUT', 'POST']).
+
+1. preflightContinue: Pass the CORS preflight response to the next handler.
+
+1. optionsSuccessStatus: Provides a status code to use for successful OPTIONS requests, since some legacy browsers (IE11, various SmartTVs) choke on 204.
+### Enabling CORS Pre-Flight
+Certain CORS requests are considered ‘complex’ and require an initial OPTIONS request (called the “pre-flight request”). An example of a ‘complex’ CORS request is one that uses an HTTP verb other than GET/HEAD/POST (such as DELETE) or that uses custom headers. To enable pre-flighting, you must add a new OPTIONS handler for the route you want to support:
+
 ## Reference
 - [Express.js](https://expressjs.com/)
+- [Express.js - CORS](https://expressjs.com/en/resources/middleware/cors.html)

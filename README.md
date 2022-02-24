@@ -12,10 +12,6 @@ This is a open code box of developerasun, containing the sum of his blood, sweat
 - docs: readme and other markdowns
 </details>
 
-## Working on
-- Currently focusing on : React, Typescript, Redux
-- Should work on : regular expression
-
 ## Inputs
 
 <details>
@@ -29,27 +25,6 @@ This is a open code box of developerasun, containing the sum of his blood, sweat
   <summary>✅Backend</summary>
 
 - myJavascript
- 
-</details>
-
-<details>
-  <summary>✅Deploy</summary>
-
-- myCloud, myDeploy
- 
-</details>
-
-<details>
-  <summary>✅Teamwork</summary>
-
-- myCollaboration
- 
-</details>
-
-<details>
-  <summary>✅Computer Science</summary>
-
-- myCSknowledge
  
 </details>
 

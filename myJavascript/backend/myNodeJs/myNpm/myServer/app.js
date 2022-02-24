@@ -3,7 +3,7 @@ const express = require('express')
 // The express() function is a top-level function 
 // exported by the express module.
 const app = express() // don't have to add semicolon
-const bodyParser = require('body-parser') // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+const bodyParser = require('body-parser')
 
 // express.listen(#port, callback) : A node http.Server is returned
 // localhost : 127.0.0.1

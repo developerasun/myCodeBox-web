@@ -10,7 +10,7 @@ const userSchema = new Schema({
         required: [true, 'Please enter an email'], 
         unique : true, 
         lowercase: true,
-        validate: [isEmail, 'Please enter a valid email']
+        validate: [isEmail, 'Please enter a valid email'],
     }, 
     password : {
         type: String, 
@@ -27,6 +27,7 @@ userSchema.pre('save', function(next){
     next()
 })
 
+// Create a mongoose hook for password hashing
 userSchema.pre('save', async function(next){
     try {
         const salt = await bcrypt.genSalt()
@@ -39,7 +40,6 @@ userSchema.pre('save', async function(next){
 })
 
 // schema.post : Defines a post hook for the model.
-// Create a mongoose hook for password hashing
 // Works like a middleware, meaning if the next method is not fired, 
 // response will stop
 userSchema.post('save', function(doc, next){
@@ -48,7 +48,7 @@ userSchema.post('save', function(doc, next){
 })
 
 // static method to login user
-// schema.statics : Adds static "class" methods to Models compiled from this schema.
+// schema.statics : Object of currently defined statics on this schema.
 userSchema.statics.login = async function(email, password) { 
     const user = await this.findOne( { email })
     if (user) { 

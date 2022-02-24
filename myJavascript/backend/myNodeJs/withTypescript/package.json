@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.ts"
+    "ts-start": "nodemon server.ts"
   },
   "keywords": [],
   "author": "Jake Sung",

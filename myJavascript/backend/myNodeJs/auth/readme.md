@@ -10,7 +10,7 @@ Took below course and summarized essentials.
 Authentification can be a very complex topic. The way authentification is done can be many ways other than JWT, like sessions, but here JSON web token(JWT) will be used. 
 
 ## Understanding JSON Web Token
-In web service, one of the most important things is authentification method. 
+One of the most important things in web service is authentification method. 
 
 types of authentification methods
 - OpenID
@@ -19,10 +19,7 @@ types of authentification methods
 - OAuth2 
 
 <p>
-JSON format has been popular in transferring data format since it is easy to use and to contain many infos in it. Besides,  many programming language provides JSON parsers. It means that the data can be easily converted to object. 
-</p>
-<p>
-JWT also can be combinated with OAuth2, which is a favored authorization of big IT companies such as Microsoft, Facebook, and Google.
+JSON format has been popular in transferring data format since it is easy to use and to contain many infos in it. Besides, many programming language provides JSON parsers. It means that the data can be easily converted to object. JWT also can be combinated with OAuth2, which is a favored authorization of big IT companies such as Microsoft, Facebook, and Google.
 </p>
 
 <img src="reference/jwt-example.png" width=700 height=500 alt="JSON web token example" />
@@ -58,7 +55,7 @@ Password should not be stored in database in a form of what user just had typed.
 6. If identified, server sends a user info to browser. If not, sends an error.
 
 ### JWT security caution
-When using JWT for authentication, you have to be aware of Cross Site Request Forgery(CSRF). The attack is target state changes on server by taking advantage of the fact that when user is in an authenticated status, there is no way to distinguish forged request by attacker and a normal request by user. 
+When using JWT for authentication, you have to be aware of Cross Site Request Forgery(CSRF). The attack is to target state changes on server by taking advantage of the fact that when user is in an authenticated status, there is no way to distinguish forged request by attacker and a normal request by user. 
 
 Read below article to find out more. 
 

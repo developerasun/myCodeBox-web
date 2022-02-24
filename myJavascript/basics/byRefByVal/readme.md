@@ -3,7 +3,7 @@ Call by value and call by reference is the one of the most important topics in p
 
 <img src="reference/byValueByRef.png" alt="youtube screenshot" width=625 height=125 />
 
-Primitive values in Javascript : call by value
+**Primitive values in Javascript : call by value**
 For example,
 1. string
 2. number 
@@ -13,7 +13,7 @@ For example,
 6. symbol : newly added in ECMA 2015(ES6). Used to create an unqiue property key
 7. null
 
-All primitives are immutable.
+All primitives are immutable. Array, object, and function is call by reference. 
 
 ## Reference
 - [Reference vs Value in Javascript](https://youtu.be/-hBJz2PPIVE)

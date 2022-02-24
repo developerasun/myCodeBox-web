@@ -32,8 +32,7 @@ const Planets = () => {
         // Query options
         {
         keepPreviousData:true,
-        // data is in fresh status for 2000ms(2 sec)
-        staleTime: 2000, 
+        staleTime: 2000, // data is in fresh status for 2000ms(2 sec)
         cacheTime: 500000, // data cached for 5 mins
         onSuccess: ()=>console.log("data succesfully fetched ...")
     })
