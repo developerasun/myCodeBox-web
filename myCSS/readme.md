@@ -1,13 +1,63 @@
 # Learning CSS3 Essentials
-Took below courses and summarized essentials. 
+## Cascade and inheritance
+> The aim of this lesson is to develop your understanding of some of the most fundamental concepts of CSS — the cascade, specificity, and inheritance — which control how CSS is applied to HTML and how conflicts are resolved.
 
-- [Free code camp : CSS Flexbox](https://www.freecodecamp.org/learn/responsive-web-design/#css-flexbox) 
-- [Free code camp : CSS Grid](https://www.freecodecamp.org/learn/responsive-web-design/#css-grid) 
+> While working through this lesson may seem less immediately relevant and a little more academic than some other parts of the course, an understanding of these things will save you much pain later on.
 
-## Tablet of Contents 
-- [Learn by doing]()
-- [CSS Flexbox]()
-- [CSS Grid]()
+### Conflicting rules
+> CSS stands for Cascading Style Sheets, and that first word cascading is incredibly important to understand — the way that the cascade behaves is key to understanding CSS.
+
+> The cascade, and the closely-related concept of specificity, are mechanisms that control which rule applies when there is such a conflict. Which rule is styling your element may not be the one you expect, so you need to understand how these mechanisms work.
+
+> Also significant here is the concept of inheritance, which means that some CSS properties by default inherit values set on the current element's parent element, and some don't. This can also cause some behavior that you might not expect.
+
+### The cascade
+> Stylesheets cascade — at a very simple level, this means that the order of CSS rules matters; when two rules apply that have equal specificity, the one that comes last in the CSS is the one that will be used.
+
+```css
+h1 { 
+    color : red;
+}
+
+h1 {
+    color : blue;
+}
+/* result : h1 is colored in blue. */
+```
+
+### Specifity
+> Specificity is how the browser decides which rule applies if multiple rules have different selectors, but could still apply to the same element. It is basically a measure of how specific a selector's selection will be. More specific selector is, the high score it gets. 
+
+```html
+<h1 class="main-heading">This is my heading.</h1>
+```
+
+Above h1 tags is colored in red if we have css rules declared like below, 
+
+```css 
+/* class selector : higher priority than just tag selector*/
+.main-heading { 
+    color: red; 
+}
+        
+h1 { 
+    color: blue; 
+}
+```
+
+### Inheritance
+> some CSS property values set on parent elements are inherited by their child elements, and some aren't.
+> For example, if you set a color and font-family on an element, every element inside it will also be styled with that color and font, unless you've applied different color and font values directly to them.
+> Even experienced developers don't remember all the details.
+
+#### Controlling inheritance
+> CSS provides four special universal property values for controlling inheritance. Every CSS property accepts these values.
+
+1. inherit : Sets the property value applied to a selected element to be the same as that of its parent element. Effectively, this "turns on inheritance".
+1. initial : Sets the property value applied to a selected element to the initial value of that property.
+1. unset : Resets the property to its natural value, which means that if the property is naturally inherited it acts like inherit, otherwise it acts like initial.
+1. revert : Acts like unset in many cases, however will revert the property to the browser's default styling rather than the defaults applied to that property.
+
 
 ## Learn by doing 
 Summarized what I learned in a block quote form. 
@@ -482,3 +532,9 @@ Flex box distributes its box items by main axis - when there is no more space to
 ## Reference 
 - [Free code camp : CSS Flexbox](https://www.freecodecamp.org/learn/responsive-web-design/#css-flexbox) 
 - [Free code camp : CSS Grid](https://www.freecodecamp.org/learn/responsive-web-design/#css-grid) 
+
+
+## Reference 
+- [Free code camp : CSS Flexbox](https://www.freecodecamp.org/learn/responsive-web-design/#css-flexbox) 
+- [Free code camp : CSS Grid](https://www.freecodecamp.org/learn/responsive-web-design/#css-grid) 
+- [MDN web docs : CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance) 
