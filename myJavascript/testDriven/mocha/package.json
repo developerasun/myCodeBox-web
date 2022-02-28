@@ -1,0 +1,21 @@
+{
+  "name": "mocha",
+  "version": "1.0.0",
+  "description": "> Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, making asynchronous testing simple and fun. Mocha tests run serially, allowing for flexible and accurate reporting, while mapping uncaught exceptions to the correct test cases.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./test/**/*.test.js",
+    "ts-test" : "mocha -r ts-node/register ./ts-test/**/*.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.1.0",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.1",
+    "ts-node": "^10.5.0"
+  },
+  "type": "commonjs"
+}
