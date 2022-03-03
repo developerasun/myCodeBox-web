@@ -6,16 +6,39 @@ Install sass with npm.
 npm i -g sass
 ```
 
-> When you install Sass on the command line, you'll be able to run the sass executable to compile .sass and .scss files to .css files. For example:
+> When you install Sass on the command line, you'll be able to run the sass executable to compile .sass and .scss files to .css files.
+
+```
+Usage: sass <input.scss> [output.css]
+       sass <input.scss>:<output.css> <input/>:<output/> <dir/>
+```
+
+For example:
 
 ```shell
-$npx sass source/stylesheets/index.scss 
-build/stylesheets/index.css
+# compile scss to css
+$npx sass [inputDirectory/myInput.scss] [outputDirectory/myInput.css]
+
+# set specific directories for input/output
+$npx sass ./playground.scss ./css/playground.css
 ```
 
 Once compiled, you can check result in terminal. 
 
 <img src="../reference/sass-debug.png" width=814 height=204 alt="sass compile result" />
+
+### Watch mode
+> --watch flag  acts like the --update flag, but after the first round compilation is done Sass stays open and continues compiling stylesheets whenever they or their dependencies change.
+
+> Sass watches only the directories that you pass as-is on the command line, parent directories of filenames you pass on the command line, and load paths. It does not watch additional directories based on a file’s @import/@use/ @forward rules.
+
+<img src="../reference/npx-watch-flag.png" width=489 height=340 alt="sass watch flag" />
+
+### No source map
+> If the --no-source-map flag is passed, Sass won’t generate any source maps. it cannot be passed along with other source map options.
+
+<img src="../reference/no-source-map.png" width=795 height=71 alt="sass no source map flag" />
+
 
 ## Basics
 > Sass is completely compatible with all versions of CSS. We take this compatibility seriously, so that you can seamlessly use any available CSS libraries.
@@ -102,6 +125,35 @@ and, or, and not have the usual boolean behavior. Sass considers every value “
 
 ### Parentheses
 > You can explicitly control the order of operations using parentheses. An operation inside parentheses is always evaluated before any operations outside of them. Parentheses can even be nested, in which case the innermost parentheses will be evaluated first.
+
+### Built-in module
+> Sass provides many built-in modules which contain useful functions (and the occasional mixin). These modules can be loaded with the @use rule like any user-defined stylesheet, and their functions can be called like any other module member. All built-in module URLs begin with sass: to indicate that they're part of Sass itself.
+
+> Before the Sass module system was introduced, all Sass functions were globally available at all times. Many functions still have global aliases (these are listed in their documentation). The Sass team discourages their use and will eventually deprecate them, but for now they remain available for compatibility with older Sass versions and with LibSass (which doesn’t support the module system yet).
+
+```scss
+@use "sass:color";
+
+.button {
+  $primary-color: #6b717f;
+  color: $primary-color;
+  border: 1px solid color.scale($primary-color, $lightness: 20%);
+}
+```
+
+1. The sass:math module provides functions that operate on numbers.
+
+1. The sass:string module makes it easy to combine, search, or split apart strings.
+
+1. The sass:color module generates new colors based on existing ones, making it easy to build color themes.
+
+1. The sass:list module lets you access and modify values in lists.
+
+1. The sass:map module makes it possible to look up the value associated with a key in a map, and much more.
+
+1. The sass:selector module provides access to Sass’s powerful selector engine.
+
+1. The sass:meta module exposes the details of Sass’s inner workings.
 
 ## Free code camp exercise
 Took below course and summarized essentials. 
