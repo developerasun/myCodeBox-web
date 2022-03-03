@@ -1,0 +1,18 @@
+// shared css rules
+%shared {
+    background-color: black;
+    color: white;
+}
+
+@for $var from 1 through 3 {
+    .extend#{$var} {
+        @extend %shared;
+        @debug "style applied to : #{$var}"
+    }
+}
+
+$one : 1;
+$two : 2;
+$three : 3; 
+
+@debug $one + $two == 3;
