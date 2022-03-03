@@ -1,4 +1,109 @@
 # Learning Sass essentials
+## Installation
+Install sass with npm. 
+
+```shell
+npm i -g sass
+```
+
+> When you install Sass on the command line, you'll be able to run the sass executable to compile .sass and .scss files to .css files. For example:
+
+```shell
+$npx sass source/stylesheets/index.scss 
+build/stylesheets/index.css
+```
+
+Once compiled, you can check result in terminal. 
+
+<img src="../reference/sass-debug.png" width=814 height=204 alt="sass compile result" />
+
+## Basics
+> Sass is completely compatible with all versions of CSS. We take this compatibility seriously, so that you can seamlessly use any available CSS libraries.
+
+> CSS on its own can be fun, but stylesheets are getting larger, more complex, and harder to maintain. This is where a preprocessor can help. Sass has features that don't exist in CSS yet like nesting, mixins, inheritance, and other nifty goodies that help you write robust, maintainable CSS.
+
+> Once Sass is installed, you can compile your Sass to CSS using the sass command. You'll need to tell Sass which file to build from, and where to output CSS to.
+
+### Module
+> You don't have to write all your Sass in a single file. You can split it up however you want with the @use rule. This rule loads another Sass file as a module, which means you can refer to its variables, mixins, and functions in your Sass file with a namespace based on the filename. Using a file will also include the CSS it generates in your compiled output!
+
+```scss
+// _base.sass
+$font-stack: Helvetica, sans-serif
+$primary-color: #333
+
+body
+  font: 100% $font-stack
+  color: $primary-color
+```
+
+And use this _base.sass like below. 
+
+```scss
+// styles.scss
+@use 'base';
+
+.inverse {
+  background-color: base.$primary-color;
+  color: white;
+}
+```
+
+### Mixins
+> Some things in CSS are a bit tedious to write, especially with CSS3 and the many vendor prefixes that exist. A mixin lets you make groups of CSS declarations that you want to reuse throughout your site. It helps keep your Sass very DRY.
+
+```scss
+@mixin theme($theme: DarkGray) {
+  background: $theme;
+  box-shadow: 0 0 1px rgba($theme, .25);
+  color: #fff;
+}
+
+.info {
+  @include theme;
+}
+.alert {
+  @include theme($theme: DarkRed);
+}
+.success {
+  @include theme($theme: DarkGreen);
+}
+```
+
+> We're also using the variable $theme inside the parentheses so we can pass in a theme of whatever we want.
+
+### Operator
+> Doing math in your CSS is very helpful. Sass has a handful of standard math operators like +, -, *, math.div(), and %. In our example we're going to do some simple math to calculate widths for an article and aside.
+
+```scss
+@use "sass:math";
+
+.container {
+  display: flex;
+}
+
+article[role="main"] {
+  width: math.div(600px, 960px) * 100%;
+}
+
+aside[role="complementary"] {
+  width: math.div(300px, 960px) * 100%;
+  margin-left: auto;
+}
+```
+
+Sass supports various operators. 
+
+1. == and != are used to check if two values are the same.
+1. +, -, *, /, and % have their usual mathematical meaning for numbers, with special behaviors for units that matches the use of units in scientific math.
+1. <, <=, >, and >= check whether two numbers are greater or less than one another.
+and, or, and not have the usual boolean behavior. Sass considers every value “true” except for false and null.
+1. +, -, and / can be used to concatenate strings.
+
+### Parentheses
+> You can explicitly control the order of operations using parentheses. An operation inside parentheses is always evaluated before any operations outside of them. Parentheses can even be nested, in which case the innermost parentheses will be evaluated first.
+
+## Free code camp exercise
 Took below course and summarized essentials. 
 
 - [Free code camp - Sass](https://www.freecodecamp.org/learn/front-end-development-libraries/#sass)
