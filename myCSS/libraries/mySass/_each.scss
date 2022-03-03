@@ -1,9 +1,0 @@
-// Declare a list in Sass
-$colorList : (blue, black, red); 
-
-// Loop the list using @each statement in Sass
-@each $color in $colorList {
-    .#{$color}-bg {
-        background-color: $color;
-    }
-}

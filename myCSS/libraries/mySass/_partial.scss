@@ -1,5 +1,0 @@
-@import 'variable'; // should not include underscore when importing a partial
-
-div { 
-    background-color: $importMe;
-}

@@ -1,7 +1,0 @@
-
-// Loop 1 to 6 (exclude 6) in Sass using $for statement
-@for $j from 1 to 6 {
-    .text-#{$j} {
-        font-size: 15*$j;
-    }
-}
