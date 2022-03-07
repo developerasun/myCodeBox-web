@@ -1,3 +1,0 @@
-
-    create a directory first and then create a file
-    
