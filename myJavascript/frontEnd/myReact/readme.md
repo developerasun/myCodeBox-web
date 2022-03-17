@@ -1,37 +1,25 @@
 # Learning React essentials
-- What is it : Javascript UI library
-- Why learn : is one of the core skill set of front end developer
-- What to learn : React, JSX, Redux, React-Redux, React with typescript
-- Runtime : Node JS
-- Rivals : Vue, Angular, Svelt
-- Goal : PawCon rebuilding with React/TS 
 
-Check your React version with below command
-```Javascript
-npm view react version
-```
+> React is a JavaScript library for building user interfaces.
 
-## Contents included
-- myComponents : exercise my own React codes (JS/TS)
-- myFreeCodeCamp : basic React and Redux
-- net-ninja : React tutorials (Query, Material UI, Testing, Context)
-- React docs summarization
+> Declarative : React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes.
 
-## Table of Contents
-- [Create a React app]()
-- [Components and Props]()
-- [State and Lifecycle]()
-- [Unidirectional data flow in React]()
-- [Styling in React]()
-- [React with Redux]()
-- [Reference]()
+> Component-Based: Build encapsulated components that manage their state, then compose them to make complex UIs. Since component logic is written in JavaScript instead of templates, you can easily pass rich data through your app and keep the state out of the DOM.
+
+> Learn Once, Write Anywhere: We don't make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code. React can also render on the server using Node and power mobile apps using React Native.
+
 
 ### Create a React app
-```Javascript
-npx create-react-app
+
+```shell
+# CRA
+$npx create-react-app
+# Check React version.
+$npm view react version
 ```
 
 Once you create a react app, look at the directories to get more understanding of React. 
+
 - /public : index.html => root div
 - /src : React codes contained
 - /src/App.js : Updates and compile React codes
@@ -50,6 +38,146 @@ Once you create a react app, look at the directories to get more understanding o
     ```
 </details>
 
+## Virtual DOM
+> The virtual DOM (VDOM) is a programming concept where an ideal, or “virtual”, representation of a UI is kept in memory and synced with the “real” DOM by a library such as ReactDOM. This process is called [reconciliation](https://reactjs.org/docs/reconciliation.html).
+
+> This approach enables the declarative API of React: You tell React what state you want the UI to be in, and it makes sure the DOM matches that state. This abstracts out the attribute manipulation, event handling, and manual DOM updating that you would otherwise have to use to build your app.
+
+> Since “virtual DOM” is more of a pattern than a specific technology, people sometimes say it to mean different things. In React world, the term “virtual DOM” is usually associated with [React elements](https://reactjs.org/docs/rendering-elements.html)[](https://reactjs.org/docs/faq-internals.html#is-the-shadow-dom-the-same-as-the-virtual-dom)[](https://reactjs.org/docs/faq-internals.html#what-is-react-fiber) since they are the objects representing the user interface. React, however, also uses internal objects called “fibers” to hold additional information about the component tree. They may also be considered a part of “virtual DOM” implementation in React.
+
+> Is the Shadow DOM the same as the Virtual DOM? : No, they are different. The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components. The virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
+
+## React Fiber
+> Fiber is the new reconciliation engine in React 16. Its main goal is to enable incremental rendering of the virtual DOM. [Read more](https://github.com/acdlite/react-fiber-architecture).
+
+## Reconciliation
+> React provides a declarative API so that you don’t have to worry about exactly what changes on every update. This makes writing applications a lot easier, but it might not be obvious how this is implemented within React. This article explains the choices we made in React’s “diffing” algorithm so that component updates are predictable while being fast enough for high-performance apps.
+
+> When you use React, at a single point in time you can think of the render() function as creating a tree of React elements. On the next state or props update, that render() function will return a different tree of React elements. React then needs to figure out how to efficiently update the UI to match the most recent tree.
+
+> There are some generic solutions to this algorithmic problem of generating the minimum number of operations to transform one tree into another. However, the state of the art algorithms have a complexity in the order of O(n3) where n is the number of elements in the tree.
+
+> If we used this in React, displaying 1000 elements would require in the order of one billion comparisons. This is far too expensive. Instead, React implements a heuristic O(n) algorithm based on two assumptions:
+
+1. Two elements of different types will produce different trees.
+1. The developer **can hint at which child elements may be stable across different renders with a key prop**.
+
+> In practice, these assumptions are valid for almost all practical use cases.
+
+### Diffing algorithm
+> When diffing two trees, React first compares the two root elements. The behavior is different depending on the types of the root elements.
+
+#### Elements Of Different Types
+> Whenever the root elements have different types, React will tear down the old tree and build the new tree from scratch. Going from <a> to <img>, or from <Article> to <Comment>, or from <Button> to <div> - any of those will lead to a full rebuild.
+
+> When tearing down a tree, old DOM nodes are destroyed. Component instances receive componentWillUnmount(). When building up a new tree, new DOM nodes are inserted into the DOM. Component instances receive UNSAFE_componentWillMount() and then componentDidMount(). Any state associated with the old tree is lost.
+
+> Any components below the root will also get unmounted and have their state destroyed. For example, when diffing:
+
+```jsx
+<div>
+  <Counter />
+</div>
+
+// This will destroy the old Counter and remount a new one.
+<span>
+  <Counter />
+</span>
+
+// These methods are considered legacy and you should avoid them in new code:
+// UNSAFE_componentWillMount()
+```
+
+#### DOM Elements Of The Same Type
+> When comparing two React DOM elements of the same type, React looks at the attributes of both, keeps the same underlying DOM node, and only updates the changed attributes. For example:
+
+```jsx
+<div className="before" title="stuff" />
+
+<div className="after" title="stuff" />
+```
+
+> By comparing these two elements, React knows to only modify the className on the underlying DOM node.
+
+#### Component Elements Of The Same Type
+> When a component updates, the instance stays the same, so that state is maintained across renders. React updates the props of the underlying component instance to match the new element, and calls UNSAFE_componentWillReceiveProps(), UNSAFE_componentWillUpdate() and componentDidUpdate() on the underlying instance.
+
+> Next, the render() method is called and the diff algorithm recurses on the previous result and the new result.
+
+#### Recursing On Children
+> By default, when recursing on the children of a DOM node, React just iterates over both lists of children at the same time and generates a mutation whenever there’s a difference.
+
+> For example, when adding an element at the end of the children, converting between these two trees works well:
+
+```jsx
+<ul>
+  <li>first</li>
+  <li>second</li>
+</ul>
+
+<ul>
+  <li>first</li>
+  <li>second</li>
+  <li>third</li>
+</ul>
+```
+
+> React will match the two <li>first</li> trees, match the two <li>second</li> trees, and then insert the <li>third</li> tree.
+
+> If you implement it naively, inserting an element at the beginning has worse performance. For example, converting between these two trees works poorly:
+
+```jsx
+<ul>
+  <li>Duke</li>
+  <li>Villanova</li>
+</ul>
+
+<ul>
+  <li>Connecticut</li>
+  <li>Duke</li>
+  <li>Villanova</li>
+</ul>
+```
+
+> React will mutate every child instead of realizing it can keep the <li>Duke</li> and <li>Villanova</li> subtrees intact. This inefficiency can be a problem.
+
+#### Keys
+> In order to solve this issue, React supports a key attribute. When children have keys, **React uses the key to match children in the original tree with children in the subsequent tree**. For example, adding a key to our inefficient example above can make the tree conversion efficient:
+
+```jsx
+<ul>
+  <li key="2015">Duke</li>
+  <li key="2016">Villanova</li>
+</ul>
+
+<ul>
+  <li key="2014">Connecticut</li>
+  <li key="2015">Duke</li>
+  <li key="2016">Villanova</li>
+</ul>
+```
+
+> Now React knows that the element with key '2014' is the new one, and the elements with the keys '2015' and '2016' have just moved. In practice, finding a key is usually not hard. The element you are going to display may already have a unique ID, so the key can just come from your data:
+
+```jsx
+<li key={item.id}>{item.name}</li>
+```
+
+> When that’s not the case, you can add a new ID property to your model or hash some parts of the content to generate a key. The key only has to be unique among its siblings, not globally unique.
+
+> As a last resort, you can pass an item’s index in the array as a key. This can work well if the items are never reordered, but reorders will be slow.
+
+> Reorders can also cause issues with component state when indexes are used as keys. Component instances are updated and reused based on their key. If the key is an index, moving an item changes it. As a result, component state for things like uncontrolled inputs can get mixed up and updated in unexpected ways.
+
+#### Tradeoffs
+> It is important to remember that the reconciliation algorithm is an implementation detail. React could rerender the whole app on every action; the end result would be the same.
+
+> Because React relies on heuristics, if the assumptions behind them are not met, performance will suffer.
+
+1. The algorithm will not try to match subtrees of different component types. If you see yourself alternating between two component types with very similar output, you may want to make it the same type. In practice, we haven’t found this to be an issue.
+
+1. Keys should be stable, predictable, and unique. Unstable keys (like those produced by Math.random()) will cause many component instances and DOM nodes to be unnecessarily recreated, which can cause performance degradation and lost state in child components.
+
 ### Element in React
 the smallest unit in React codes. It shows what is displayed in screen. 
 
@@ -58,8 +186,9 @@ the smallest unit in React codes. It shows what is displayed in screen.
 - [What is Virtual DOM in React?](https://www.codecademy.com/articles/react-virtual-dom)
 
 <details>
-    <summary>DOM comparison(click to unfold) </summary>
-    <img src="reference/virtual-dom-browser-dom.png" width=660 height=450/>
+<summary>DOM comparison(click to unfold) </summary>
+
+<img src="reference/virtual-dom-browser-dom.png" width=660 height=450/>
 </details>
 
 React has its own strength in performance since it updates HTML DOM where only update needed by exploiting virtual DOM. 
@@ -89,9 +218,7 @@ Component and props(properties) is the building blocks of React.
 - React : property => component => element
 
 #### Component 
-<p>
 Component is an important subject in React since React is component-based. Think of it as class in Python, function in Javascript, meaning it is a template used to make objects. Component should act like pure functions, maintaining props. <strong>Component name should always start with Capital.</strong> 
-</p>
 
 - name starts with lower case => tag 
 - name starts with upper case => component
@@ -100,9 +227,7 @@ Types of React components is as follows :
 - Stateless functional component : Pure function. If take the same input, returns the same output. Does not use internal state. 
 - Stateful class component : Use internal state. 
 
-<p>
 A common practice is to minimize statefulness and exploit stateless functional component whenever possible. It improves apllication development/maintenance. Stacking too many elements in a component is a overkill. By spliting elements in a component, a reusuable UI component can be made. Classify related elements and make them a component for future reuse. 
-</p>
 
 If a component returns null, it won't be rendered. For example, look at below codes.
 
@@ -222,9 +347,7 @@ render() {
 </details>
 
 ##### Shared state
-<p>
 A state that is shared with various sub-components, removing possible duplicates of state. For example, if a person component has a name state, sub-components German and Russian do not have to have the name state in their components. Sharing state is done by moving the state up to the closest common ancestor of the components that need it - which is called lifting state up. 
-</p>
 
 ```JSX
 
@@ -783,7 +906,6 @@ const Details = () => {
 // Set a route parameter and devlier it as props in Link component. 
 <Route path="/blogs/:postingNumber">
 <Link to={`/blogs/${props.postingNumber}`}>Check the post</Link>
-
 ```
 
 #### React Router Link
@@ -1023,19 +1145,18 @@ types of top-level APIs are as follows :
 - React.Component : a base class for a component. used with ES6 class. 
 - React.PureComponent : similar to React.Component but implements shouldComponentUpdate metho with shallow prop/state comparison.
 
-```md
 >If your React component’s render() function renders the same result given the same props and state, you can <bold>use React.PureComponent for a performance boost</bold> in some cases. Only extend PureComponent when you expect to have simple props and state.
-```
 </details> 
 
 <details>
     <summary>React.memo</summary>
 
-React.memo is a higher order component for improving performance, only checking props changes. If used, React skips rendering component and reuse the lastly rendered one.
+React.memo is a higher order component for improving performance, only checking **props changes**. If used, React skips rendering component and reuse the lastly rendered one.
 </details>
 
 <details>
     <summary>React.Fragment</summary>
+    
 React.Fragment is a first-class component. 
 
 ```md
@@ -1054,25 +1175,10 @@ render() {
 }
 ```
 
-</details>
-<details>
-    <summary>React.memo</summary>
-</details>
-<details>
-    <summary>React.memo</summary>
-</details>
-
-
-##### ReactDOM
-content will be added
-
-
 ##### DOM element in React
-HTML DOM and React DOM is different. React engineers refines some of the browser DOM's aspect for performanc purpose. 
+HTML DOM and React DOM is different. React engineers refines some of the browser DOM's aspect for performance purpose. 
 
-```md 
 > React implements a browser-independent DOM system for performance and cross-browser compatibility.
-```
 
 ###### onChange
 Fired whenever a form field is changed, taking user input. 
@@ -1094,188 +1200,6 @@ React is an uni-directional data flow, meaning that sharing props is only done f
 
 
 
-------------------------------------------------------
-
-
-### React testing library
-Took below course and summarzied essentials. 
-
-- [Net ninja - react testing library](https://www.youtube.com/watch?v=tit8PecSH70&list=PL4cUxeGkcC9gm4_-5UsNmLqMosM-dzuvQ&index=2)
-
-The reason of test is needed as follows : 
-1. easy to catch bugs 
-2. increase trusts in application
-3. speeds up QA time
-4. serve as documentation
-
-> Projects created with Create React App have out of the box support for React Testing Library. If that is not the case, you can add it via npm (npm install --save-dev @testing-library/react)
-
-Types of common tests are as follows : 
-1. unit test : alone component should work fine => React testing library
-2. integration test : componenets related should work together fine => React testing library
-3. end to end test(e2e) : testing every single feature from user persepctive. => usually done with tools like cypress.
-
-Note that files in the form of (filename).test.js will be considered as test files by React testing library.
-
-##### Adding jest configuration
-Create a jsconfig.json file in project root with below codes so that text editor will recognize Jest for autocomplete.
-
-```json
-{
-    "typeAcquisition": {
-        "include": ["jest"]
-    }
-}
-```
-
-#### Understanding test block
-Test code block consist of like below. 
-
-1. Render a component that you want to test
-2. Find elements that you want to interact with 
-3. The component and element interact
-4. Assert if result comes out as expected
-
-```js
-import { render, screen } from '@testing-library/react';
-import App from './App';
-
-test('renders learn react link', () => {
-    render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-// test and it is interchangable.
-it('renders learn react link', () => {
-    render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-```
-
-<img src="reference/test-name.png" width=360 height=220 />
-
-#### Understanding screen methods
-Most of time, you will utilize get methods over than find/query ones.  
-
-- getBy : sync, 1 match
-- findBy : async, 1 match
-- queryBy : sync, 1 match 
-
-- getAllBy : sync, 1+ matches
-- findAllBy : async, 1+ matches
-- queryAllBy : sync, 1+ matches
-
-The point in choosing test methods is to mimic user interaction as much as possible. Method priority is as follows. 
-
-<img src="reference/testing-priority.png" width=640 height=700 />
-
-Typical directory convention for testing files as follows. 
-
-<img src="reference/test-dir-convention.png" width=510 height=411 />
-
-#### Test code examples
-When writing tests, try to isolate each test so that responsibility of each test can be clear. And testing is done in isolated environment. For example, when react-router or other tools is used in development, a similar requirement should be done(mocking) in testing environment as well. 
-
-```js
-import { BrowserRouter } from 'react-router-dom'
-const MockRouterComponent = () => {
-    return (<BrowserRouter>
-                <ComponentHere>
-            </BroswerRouter>)
-}
-```
-
-#### Better way to manage test blocks
-Use describe block to group the same type of test blocks.
-
-<img src="reference/describe-block.png" width=400 height=510 />
-
-### Mocking request
-In real production-level application, testing your component with external API is not a great idea because, 
-
-- testing dependent on external sources
-- requests actually cost money in real world
-
-thus, mocking request with jest and create a dummy data is a better option.
-
-### Before, After hooks
-Sometimes, some tests should be run before/after than other test. Use below methods in your demands. 
-
-- beforeEach
-- beforeAll
-- afterEach
-- afterAll
-
-<img src="reference/before-after-hooks.png" width=581 height=519 />
-
-### Shopping Cart With Redux
-> The Redux Toolkit package is intended to be the standard way to write Redux logic. It was originally created to help address three common concerns about Redux:
-
->"Configuring a Redux store is too complicated"
->"I have to add a lot of packages to get Redux to do anything useful"
->"Redux requires too much boilerplate code"
-
-```shell
-$npm install @reduxjs/toolkit
-$yarn add @reduxjs/toolkit
-```
-
-Types of methods, types, properties available in **Redux toolkit** are as follows :
-
-- createSlice : takes four arguments 1) slice name 2) initial state 3) reducer's' object 4) extraReducer(for async request)
-
-- createSlice.actions : Action creators for the **types of actions that are handled by the slice reducer**.
-
-- useSelector : A hook to **access the redux store's state**. This hook takes a selector function as an argument. The selector is called with the store state.
-
-- PayloadAction : An **action with a string type and an associated payload**. This is the type of action returned by createAction() action creators.
-
-- extraReducers :  A property that **hooks createAsyncThunk with createSlice**. A callback that **receives a builder object** to define case reducers via calls to builder.addCase(actionCreatorOrType, reducer).
-
-- builder.addCase : Adds **a case reducer** to handle a single exact action type.
-
-- createEntityAdapter : A function that generates a set of **prebuilt reducers and selectors** for performing **CRUD operations** on a normalized state structure containing instances of a particular type of data object. 
-
-- getSelectors : a function that returns **a set of selectors** that know how to read the **contents of an entity state** object:
-
-> Note on shallow updates: **updateOne, updateMany, upsertOne, and upsertMany** only perform shallow updates in a mutable manner. This means that if your update/upsert consists of an object that includes nested properties, **the value of the incoming change will overwrite the entire existing nested object**. This may be unintended behavior for your application. As a general rule, these methods are best used with normalized data that do not have nested properties.
-
-#### Redux dev tools
-Install Redux dev tools in Chrome extension below for easier debugging. 
-
-- [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd/related?hl=en)
-
-<img src="reference/redux-devtools.png" width=758 height=722 />
-
-You can check states written in Redux app are in JSON format with Redux Devtools.
-
-<img src="reference/redux-state-json.png" width=500 height=555 />
-
-#### Asynchronous request
-Dealing with asynchronous request is important in modern web application. In Redux, thunk and saga are well-known tools.
-
-> For Redux specifically, **"thunks" are a pattern of writing functions** with logic inside that can interact with a Redux store's dispatch and getState methods.Thunks are the standard approach for **writing async logic in Redux apps**, and are commonly used for data fetching. However, they can be used for a variety of tasks, and can contain both synchronous and asynchronous logic.
-
-##### createAsyncThunk
-> A function that accepts a Redux **action type string and a callback function** that should return a promise. It generates promise lifecycle action types **based on the action type prefix** that you pass in, and **returns a thunk action creator** that will run the promise callback and dispatch the lifecycle actions based on the returned promise.
-
-> This abstracts the standard recommended approach for handling async request lifecycles.
-
-<img src="reference/asyncThunk-rejected.png" width=1000 height=520 />
-
-###### arguments
-> type​ : A string that will be used to generate additional Redux action type constants, representing the lifecycle of an async request:
-
-> For example, a type argument of 'users/requestStatus' will generate these action types:
-
-- pending: 'users/requestStatus/pending'
-- fulfilled: 'users/requestStatus/fulfilled'
-- rejected: 'users/requestStatus/rejected'
-
-
 ## Reference
 - [React.org](https://reactjs.org/docs/hooks-effect.html)
 - [Free code camp - Front End Development Libraries](https://www.freecodecamp.org/learn/front-end-development-libraries/)
@@ -1284,4 +1208,4 @@ Dealing with asynchronous request is important in modern web application. In Red
 - [NetNinja - Full modern React](https://youtube.com/playlist?list=PL4cUxeGkcC9gZD-Tvwfod2gaISzfRiP9d)
 - [Codedamn - SEO For React Developers](https://youtu.be/j8OUmE4Vj3M)
 - [Free code campe : What is Open Graph and how can I use it for my website?](https://www.freecodecamp.org/news/what-is-open-graph-and-how-can-i-use-it-for-my-website/)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [React virtual DOM](https://reactjs.org/docs/faq-internals.html#what-is-the-virtual-dom)
