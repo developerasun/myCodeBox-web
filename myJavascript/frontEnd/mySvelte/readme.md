@@ -1,4 +1,5 @@
 # Learning Svelte essentials
+
 > Svelte is a radical new approach to building user interfaces. Whereas traditional frameworks like React and Vue do the bulk of their work in the browser, Svelte shifts that work into a compile step that happens when you build your app.
 
 > Instead of using techniques like virtual DOM diffing, Svelte writes code that surgically updates the DOM when the state of your app changes.
@@ -33,8 +34,47 @@ $cd svelte-typescript-app
 $node scripts/setupTypeScript.js
 ```
 
-## Reference 
+## Sass
+Install below dependency for Sass. 
+
+```shell
+$npm install --save-dev svelte-preprocess-sass sass node-sass
+```
+
+Adjust rollup.config.ts like below.
+
+```ts 
+// .. 
+export default {
+    plugins: [
+        svelte({
+            preprocess: sveltePreprocess(
+                { sourceMap: !production, sass: sass() }
+            ),
+            compilerOptions: {
+                // enable run-time checks when not in production
+                dev: !production
+            }, 
+        }),
+        // more plugins
+    ]
+}
+```
+
+And then change lang to scss in style tag. 
+
+```html
+<style lang="scss">
+    h1 { 
+        color : black;
+    }
+</style>
+```
+
+
+# Reference 
 - [Svelte.dev](https://svelte.dev/)
+- [Svelte-preprocess-sass](https://www.npmjs.com/package/svelte-preprocess-sass)
 
 adding a minimum number of test codes in React app using Jest and testing library
 To do
@@ -43,8 +83,6 @@ To do
  writing 10 test codes for login and signup
  writing 10 test codes for chat app
 
-
 1. client => react/redux toolkit/ts
 1. server => Nest js, user API, artwork API
 1. blockchain => hardhat / upgradable contracts
-1.  
