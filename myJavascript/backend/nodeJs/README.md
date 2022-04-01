@@ -1,7 +1,5 @@
-# Learning Backend Development With Javascript
-
-## Node JS basics
-### Understanding how Node.js is invented
+# Learning Node js essentials
+## Understanding how Node.js is invented
 Javascript had been used client side mostly but nowadays it can be used server side language as well. But why was it not possible then but now is good to go? 
 
 <img src="reference/javascript-in-browser.png" width=690 height=360 />
@@ -520,7 +518,36 @@ Let's spread those source folders to see more details.
 
 <img src="reference/project-source-tree.png" width=220 height=580 />
 
+## Typescript-Node js
+### Installation
+1. install typescript like below and then check typescript compiler version.
+```
+npm install - g typescript
+tsc --version // 4.5.4
+```
+
+1. Install typescript-node. 
+```
+npm install -g ts-node
+npm install @types/node // This package contains type definitions for Node.js 
+ts-node --version // 10.4.0
+```
+
+1. Create config files for Node.js and Typescript
+```
+npm init --yes
+tsc --init
+```
+
+1. Create an app.ts and run as you wish
+```
+tsc app.ts node app.js
+ts-node app.ts
+nodemon app.ts // note that nodemon app would not work
+```
+
 ## Reference
 - [NetNinja Node,js crash course](https://www.youtube.com/watch?v=zb3Qk8SG5Ms&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&index=1&t=1s)
 - [Free code campe - ENG](https://www.freecodecamp.org/learn/back-end-development-and-apis/)
 - [Inflearn - KOR](https://www.inflearn.com/course/node-js-%EC%9B%B9%EA%B0%9C%EB%B0%9C#)
+- [UI brains Express with Typescript](https://youtube.com/playlist?list=PLgp11Hu-N4DQjwdRpePYd7tNjmDyGfNck)
