@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
+import { sass } from 'svelte-preprocess-sass';
 import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -40,11 +41,13 @@ export default {
 	},
 	plugins: [
 		svelte({
-			preprocess: sveltePreprocess({ sourceMap: !production }),
+			preprocess: sveltePreprocess(
+				{ sourceMap: !production, sass: sass() }
+			),
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production
-			}
+			}, 
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
