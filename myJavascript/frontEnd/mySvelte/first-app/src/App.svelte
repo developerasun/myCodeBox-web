@@ -1,6 +1,9 @@
 <!-- root component -->
 <script lang="ts">
 	import Modal from './components/Modal.svelte'
+	import ModalChild from './components/ModalChildren.svelte'
+	import Game from './components/Game.svelte'
+import ModalChildren from './components/ModalChildren.svelte';
 	
 	export let name = "Jake";
 	let bg = 'black'
@@ -27,9 +30,12 @@
 
 <main>
 	<!-- empty on:click => event forwarding in Svelte -->
-	<Modal message="hey I'm prop for this component" on:click/>
+	<Modal message="hey I'm prop for this component" on:click>
+		<ModalChildren name="first modal child" slot="greetings"/>
+		<ModalChild name="second modal child" />
+	</Modal>
 
-	<h1>Hello {name}!</h1>
+	<h1 >Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 	<p>background color : {bg}</p>
 	<button on:click={handleClick}>update bg color</button>
@@ -44,25 +50,35 @@
 		{/each}
 	{/if}
 
+	<section id="gameContainer">
+		<Game />
+	</section>
+
 </main>
 
-<style>
+<style lang="scss">
+@mixin sassTest() {
+	background-color: tomato;
+}
+
+main {
+	text-align: center;
+	padding: 1em;
+	max-width: 240px;
+	margin: 0 auto;
+}
+
+
+h1 {
+	color: rgb(204, 204, 204);
+	font-size: 4em;
+	font-weight: 100;
+	@include sassTest();
+}
+
+@media (min-width: 640px) {
 	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+		max-width: none;
 	}
-
-	h1 {
-		color: rgb(204, 204, 204);
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+}
 </style>
