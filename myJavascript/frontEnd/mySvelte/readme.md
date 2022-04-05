@@ -93,7 +93,6 @@ And then change lang to scss in style tag.
 </button>
 ```
 
-
 ## Bindings
 
 > As a general rule, data flow in Svelte is top down — a parent component can set props on a child component, and a component can set attributes on an element, but not the other way around.
@@ -139,6 +138,70 @@ let menu = [
 		{flavour}
 	</label>
 {/each}
+```
+
+## Store
+
+> Not all application state belongs inside your application's component hierarchy. Sometimes, you'll have values that need to be accessed by multiple unrelated components, or by a regular JavaScript module.
+
+> In Svelte, we do this with stores. A store is simply an object with a subscribe method that allows interested parties to be notified whenever the store value changes. In App.svelte, count is a store, and we're setting countValue in the count.subscribe callback.
+
+> Click the stores.js tab to see the definition of count. It's a writable store, which means it has set and update methods in addition to subscribe.
+
+```js
+import { writable } from 'svelte/store';
+
+export const count = writable(0);
+```
+
+> Now go to the Incrementer.svelte tab so that we can wire up the + button:
+
+```js
+function increment() {
+	count.update(n => n + 1);
+}
+```
+
+> Clicking the + button should now update the count. Do the inverse for Decrementer.svelte.
+
+> Finally, in Resetter.svelte, implement reset:
+
+```js
+function reset() {
+	count.set(0);
+}
+```
+
+## Reactivity
+
+> At the heart of Svelte is a powerful system of reactivity for keeping the DOM in sync with your application state — for example, in response to an event.
+
+> Svelte automatically updates the DOM when your component's state changes. Often, some parts of a component's state need to be computed from other parts (such as a fullname derived from a firstname and a lastname), and recomputed whenever they change. For example, 
+
+```svelte
+<script>
+let count = 0;
+$: doubled = count * 2;
+</script>
+
+<p>{count} doubled is {doubled}</p>
+```
+
+> Of course, you could just write {count * 2} in the markup instead — you don't have to use reactive values. Reactive values become particularly valuable when you need to reference them multiple times, or you have values that depend on other reactive values.
+
+> We're not limited to declaring reactive values — we can also run arbitrary statements reactively. For example, we can log the value of count whenever it changes:
+
+```svelte
+$: {
+	console.log('the count is ' + count);
+	alert('I SAID THE COUNT IS ' + count);
+}
+
+<!-- You can even put the $: in front of things like if blocks: -->
+$: if (count >= 10) {
+	alert('count is dangerously high!');
+	count = 9;
+}
 ```
 
 ## Reference 
