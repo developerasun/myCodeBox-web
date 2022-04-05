@@ -3,8 +3,9 @@
 	import Modal from './components/Modal.svelte'
 	import ModalChild from './components/ModalChildren.svelte'
 	import Game from './components/Game.svelte'
-import ModalChildren from './components/ModalChildren.svelte';
-	
+	import ModalChildren from './components/ModalChildren.svelte';
+	import AddPersonForm from './components/AddPersonForm.svelte';
+
 	export let name = "Jake";
 	let bg = 'black'
 	const handleClick = () => {
@@ -26,6 +27,13 @@ import ModalChildren from './components/ModalChildren.svelte';
 			}
 		})
 	}
+
+	const handleAddPerson = (event) => {
+		// the event parameter contains data from AddPersonForm component
+		console.log("check: ", event.detail)
+		const elem = event.detail
+		myArr = [...myArr, elem]
+	}
 </script>
 
 <main>
@@ -45,10 +53,20 @@ import ModalChildren from './components/ModalChildren.svelte';
 		<p>no items for now</p>
 	{:else}
 		{#each myArr as item }
-		<div>iterating array : {item}</div>
+		{#if typeof(item) !== "number"}
+			{Object.values(item)}
+		{:else}
+			<div>iterating array : {item}</div>
+		{/if}
 		<button on:click={()=>handleDelete(item)}>delete number</button>
 		{/each}
 	{/if}
+
+	<section id="formContainer">
+		<h3>custom event testing</h3>
+		<!-- get custom event created in AddPersonForm component -->
+		<AddPersonForm on:addPerson={handleAddPerson}/>
+	</section>
 
 	<section id="gameContainer">
 		<Game />
