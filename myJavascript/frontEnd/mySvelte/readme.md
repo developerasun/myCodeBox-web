@@ -26,6 +26,7 @@ $npm run dev
 ```
 
 ## Typescript
+
 > You can start a new Svelte TypeScript project using the normal template and by running node scripts/setupTypeScript.js before you do anything else:
 
 ```shell
@@ -35,6 +36,7 @@ $node scripts/setupTypeScript.js
 ```
 
 ## Sass
+
 Install below dependency for Sass. 
 
 ```shell
@@ -71,18 +73,75 @@ And then change lang to scss in style tag.
 </style>
 ```
 
+## Slot
 
-# Reference 
+> Just like elements can have children, so can components. Before a component can accept children, though, it needs to know where to put them. We do this with the <slot> element.
+
+## Event modifier
+
+> DOM event handlers can have modifiers that alter their behaviour. For example, a handler with a once modifier will only run a single time:
+
+```svelte
+<script>
+	function handleClick() {
+		alert('no more alerts')
+	}
+</script>
+
+<button on:click|once={handleClick}>
+	Click me
+</button>
+```
+
+
+## Bindings
+
+> As a general rule, data flow in Svelte is top down — a parent component can set props on a child component, and a component can set attributes on an element, but not the other way around.
+
+> Sometimes it's useful to break that rule. Take the case of the <input> element in this component — we could add an on:input event handler that sets the value of name to event.target.value, but it's a bit... boilerplatey. It gets even worse with other form elements, as we'll see.
+
+> Instead, we can use the bind:value directive:
+
+```svelte
+<input bind:value={name}>
+```
+
+> This means that not only will changes to the value of name update the input value, but changes to the input value will update name.
+
+## Group inputs
+
+> If you have multiple inputs relating to the same value, you can use bind:group along with the value attribute. Radio inputs in the same group are mutually exclusive; checkbox inputs in the same group form an array of selected values.
+
+> Add bind:group to each input:
+
+```svelte
+<input type=radio bind:group={scoops} name="scoops" value={1}>
+```
+
+> In this case, we could make the code simpler by moving the checkbox inputs into an each block. First, add a menu variable to the <script> block...
+
+```js
+let menu = [
+	'Cookies and cream',
+	'Mint choc chip',
+	'Raspberry ripple'
+];
+```
+
+> ...then replace the second section:
+
+```svelte
+<h2>Flavours</h2>
+
+{#each menu as flavour}
+	<label>
+		<input type=checkbox bind:group={flavours} name="flavours" value={flavour}>
+		{flavour}
+	</label>
+{/each}
+```
+
+## Reference 
+
 - [Svelte.dev](https://svelte.dev/)
 - [Svelte-preprocess-sass](https://www.npmjs.com/package/svelte-preprocess-sass)
-
-adding a minimum number of test codes in React app using Jest and testing library
-To do
- set directories for test
- writing 10 test codes for web3 & contracts
- writing 10 test codes for login and signup
- writing 10 test codes for chat app
-
-1. client => react/redux toolkit/ts
-1. server => Nest js, user API, artwork API
-1. blockchain => hardhat / upgradable contracts
