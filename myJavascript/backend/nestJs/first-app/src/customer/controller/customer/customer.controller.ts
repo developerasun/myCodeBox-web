@@ -15,6 +15,7 @@ export class CustomerController {
         @Res() res:Response // from express
     ) {
         const customer = this.customerService.findCustomerById(id)
+        // if @Res is imported and used, should define a response
         if (customer) {
             res.json({customer})
         } else { 
@@ -28,6 +29,9 @@ export class CustomerController {
     @Get('/search/:id')
     searchCustomerById(@Param('id', ParseIntPipe) id: number) {
         const customer = this.customerService.findCustomerById(id)
+
+        // if @Res is not imported and not used, can return instance right away
+        // Nest js takes care of response under the hood 
         if (customer) return customer
         else throw new HttpException('Customer not found', HttpStatus.BAD_REQUEST)
     }

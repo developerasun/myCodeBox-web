@@ -6,6 +6,7 @@ export interface User {
 }
 
 export class SerializeUser {
+    id: number
     username: string
 
     @Exclude() // Marks the given class or property as excluded
