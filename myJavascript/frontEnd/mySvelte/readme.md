@@ -142,6 +142,14 @@ let menu = [
 
 ## Store
 
+> The svelte/store module exports functions for creating readable, writable and derived stores.
+
+> Keep in mind that you don't have to use these functions to enjoy the reactive $store syntax in your components. Any object that correctly implements .subscribe, unsubscribe, and (optionally) .set is a valid store, and will work both with the special syntax, and with Svelte's built-in derived stores.
+
+> This makes it possible to wrap almost any other reactive state handling library for use in Svelte. Read more about the store contract to see what a correct implementation looks like.
+
+### Writable stores
+
 > Not all application state belongs inside your application's component hierarchy. Sometimes, you'll have values that need to be accessed by multiple unrelated components, or by a regular JavaScript module.
 
 > In Svelte, we do this with stores. A store is simply an object with a subscribe method that allows interested parties to be notified whenever the store value changes. In App.svelte, count is a store, and we're setting countValue in the count.subscribe callback.
@@ -171,6 +179,132 @@ function reset() {
 	count.set(0);
 }
 ```
+
+### Auto-subscription with $
+
+> The app in the previous example works, but there's a subtle bug — the store is subscribed to, but never unsubscribed. If the component was instantiated and destroyed many times, this would result in a memory leak. Start by declaring unsubscribe in App.svelte:
+
+```js
+// Calling a subscribe method returns an unsubscribe function.
+const unsubscribe = count.subscribe(value => {
+	countValue = value;
+});
+```
+
+> You now declared unsubscribe, but it still needs to be called, for example through the onDestroy lifecycle hook:
+
+```html
+<script>
+	import { onDestroy } from 'svelte';
+	import { count } from './stores.js';
+	import Incrementer from './Incrementer.svelte';
+	import Decrementer from './Decrementer.svelte';
+	import Resetter from './Resetter.svelte';
+
+	let countValue;
+
+	const unsubscribe = count.subscribe(value => {
+		countValue = value;
+	});
+
+	// lifecyle hook
+	onDestroy(unsubscribe);
+</script>
+
+<h1>The count is {countValue}</h1>
+```
+
+> It starts to get a bit boilerplatey though, especially if your component subscribes to multiple stores. Instead, Svelte has a trick up its sleeve — you can reference a store value by prefixing the store name with $.
+
+```js
+<script>
+	import { count } from './stores.js';
+	import Incrementer from './Incrementer.svelte';
+	import Decrementer from './Decrementer.svelte';
+	import Resetter from './Resetter.svelte';
+</script>
+
+<h1>The count is {$count}</h1>
+```
+
+> Auto-subscription only works with store variables that are declared (or imported) at the top-level scope of a component.
+
+> You're not limited to using $count inside the markup, either — you can use it anywhere in the script as well, such as in event handlers or reactive declarations.
+
+> Any name beginning with $ is assumed to refer to a store value. It's effectively a reserved character — Svelte will prevent you from declaring your own variables with a $ prefix.
+
+### Readable stores
+
+> Not all stores should be writable by whoever has a reference to them. For example, you might have a store representing the mouse position or the user's geolocation, and it doesn't make sense to be able to set those values from 'outside'. For those cases, we have readable stores.
+
+> Click over to the stores.js tab. The first argument to readable is an initial value, which can be null or undefined if you don't have one yet. The second argument is a start function that takes a set callback and returns a stop function. The start function is called when the store gets its first subscriber; stop is called when the last subscriber unsubscribes.
+
+```js:stores.js
+// readable: 1) initial value 2) start callback with set parameter
+export const time = readable(new Date(), function start(set) {
+	const interval = setInterval(() => {
+		set(new Date());
+	}, 1000);
+
+	return function stop() {
+		clearInterval(interval);
+	};
+});
+```
+
+```html
+<script>
+	import { time } from './stores.js';
+
+	const formatter = new Intl.DateTimeFormat('en', {
+		hour12: true,
+		hour: 'numeric',
+		minute: '2-digit',
+		second: '2-digit'
+	});
+</script>
+
+<h1>The time is {formatter.format($time)}</h1>
+```
+
+### Derived stores
+
+> You can create a store whose value is based on the value of one or more other stores with derived. Building on our previous example, we can create a store that derives the time the page has been open:
+
+```js
+export const elapsed = derived(
+	time,
+	$time => Math.round(($time - start) / 1000)
+);
+```
+
+> It's possible to derive a store from multiple inputs, and to explicitly set a value instead of returning it (which is useful for deriving values asynchronously). Consult the API reference for more information.
+
+<details>
+<summary>Page refresh and svelte state</summary>
+
+> Note that the value of a writable is lost when it is destroyed, for example when the page is refreshed. However, you can write your own logic to sync the value to for example the localStorage.
+</details>
+
+### Custom store
+
+> As long as an object correctly implements the subscribe method, it's a store. Beyond that, anything goes. It's very easy, therefore, to create custom stores with domain-specific logic.
+
+> For example, the count store from our earlier example could include increment, decrement and reset methods and avoid exposing set and update:
+
+```js 
+function createCount() {
+	const { subscribe, set, update } = writable(0);
+
+	return {
+		subscribe,
+		increment: () => update(n => n + 1),
+		decrement: () => update(n => n - 1),
+		reset: () => set(0)
+	};
+}
+```
+
 
 ## Reactivity
 
@@ -203,6 +337,8 @@ $: if (count >= 10) {
 	count = 9;
 }
 ```
+
+
 
 ## Reference 
 
