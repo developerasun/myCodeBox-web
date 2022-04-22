@@ -5,8 +5,24 @@
 	import Game from './components/Game.svelte'
 	import ModalChildren from './components/ModalChildren.svelte';
 	import AddPersonForm from './components/AddPersonForm.svelte';
+	import CheckStore from './components/CheckStore.svelte';
+	import Router from 'svelte-spa-router'; 
+	import NotFound from './routes/NotFound.svelte';
+	import Home from './routes/Home.svelte';
+	import About from './routes/About.svelte';
+	import Book from './routes/Book.svelte';
+
 
 	export let name = "Jake";
+
+	let routes = {
+		"/": Home, // => /#/
+		"/about": About, // => /#/about
+		"/book/:id": Book, // => /#/book/1
+		// Not found always should be at last
+		"*": NotFound // /#/any url except above
+	}
+
 	let bg = 'black'
 	const handleClick = () => {
 		bg = 'blue'
@@ -37,14 +53,30 @@
 </script>
 
 <main>
+	<Router {routes} />
+
+	<nav>
+		<a href="#/">
+			home
+		</a>
+		<a href="#/about">
+			about
+		</a>
+
+		<!-- the id is for dynaic route -->
+		<a href="#/book/:id">
+			book
+		</a>
+		<div></div>
+	</nav>
 	<!-- empty on:click => event forwarding in Svelte -->
 	<Modal message="hey I'm prop for this component" on:click>
 		<ModalChildren name="first modal child" slot="greetings"/>
 		<ModalChild name="second modal child" />
 	</Modal>
 
+	<CheckStore />
 	<h1 >Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 	<p>background color : {bg}</p>
 	<button on:click={handleClick}>update bg color</button>
 	<input type="text" on:input={handleInput} value={bg} name="" id="">
