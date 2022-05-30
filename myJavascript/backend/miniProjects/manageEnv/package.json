@@ -1,0 +1,17 @@
+{
+  "name": "manageenv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "useCrossEnv": "cross-env NODE_ENV=development PORT=3000 node app",
+    "useEval": "eval $(cat .env) node app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1"
+  }
+}
