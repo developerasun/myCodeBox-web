@@ -197,6 +197,11 @@ require('dotenv').config() // dotenv.config methods loads your .env to global No
 
 ```
 
+Below, red rectangle is without dotenv whilst blue one is with dotenv.
+
+![dotenv-before-after](https://user-images.githubusercontent.com/83855174/170964522-031a2a26-69b2-47f0-9bc1-feae50977c14.png)
+
+
 ### Semantic Vesioning
 Package.json file follows Semantic Versioning, which is a industry standard for software versioning. Libraries and frameworks published through npm should follow below standard.
 
