@@ -1,23 +1,30 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[BUG]"
+title: "[BUG] main/sub: "
 labels: bug
 assignees: developerasun
 
 ---
 
----
-name: "[Bug report]"
-about: Create a report to help us improve
-title: "[Main/Sub] describes what happened shortly "
-labels: bug
-assignees: ''
+**Describe the bug**
+A clear and concise description of what the bug is.
 
----
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-# issue : describe the bug shortly
-## place : describe where the bug happened
-## screenshot : attach a screenshot showing the bug
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-## label : add propel lables for the bug
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Additional context**
+Add any other context about the problem here.
+
+**Labeling**
+Add a proper label for the issue
