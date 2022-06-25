@@ -1,0 +1,26 @@
+{
+  "name": "my-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "bin": {
+    "@developerasun/create-project": "bin/create-project",
+    "create-project": "bin/create-project.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arg": "^5.0.2",
+    "esm": "^3.2.25",
+    "inquirer": "^9.0.0"
+  },
+  "type": "module",
+  "packageManager": "npm@8.5.5"
+}
