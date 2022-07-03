@@ -1,6 +1,15 @@
 import inquirer from "inquirer";
 import arg from "arg";
+import { createProject } from "./main.js";
 
+/**
+ *
+ * 1. get user options from terminal
+ * 2. if flags are missing, prompt to enter with inquirer
+ * 3. deliver the option to createProject function
+ */
+
+// case 1
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
     {
@@ -23,8 +32,9 @@ function parseArgumentsIntoOptions(rawArgs) {
   };
 }
 
+// case 2
 async function promptForMissingOptions(options) {
-  const defaultTemplate = "Javascript";
+  const defaultTemplate = "javascript";
   if (options.skipPrompts) {
     return {
       ...options,
@@ -33,12 +43,13 @@ async function promptForMissingOptions(options) {
   }
 
   const questions = [];
+
   if (!options.template) {
     questions.push({
       type: "list",
       name: "template",
       message: "Please choose template",
-      choices: ["Javascript", "Typescript"],
+      choices: ["javascript", "typescript"],
       default: defaultTemplate,
     });
   }
@@ -62,9 +73,15 @@ async function promptForMissingOptions(options) {
 }
 
 export async function cli(args) {
+  // 1. user enters a whole command with flags
   let options = parseArgumentsIntoOptions(args);
+
+  // 2. user enters a basic command
   options = await promptForMissingOptions(options);
   console.log(options); // log cli option argument status
+
+  // deliver options to main logic
+  await createProject(options);
 }
 
-export default cli
+export default cli;
