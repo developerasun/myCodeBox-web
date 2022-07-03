@@ -1,3 +1,3 @@
-import * as main from "../src/cli.js";
+import * as init from "../src/cli.js";
 
-main.cli(process.argv);
+init.cli(process.argv);
