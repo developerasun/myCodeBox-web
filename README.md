@@ -1,34 +1,17 @@
+[![wakatime](https://wakatime.com/badge/user/e56daee8-7aae-4b0e-814c-b6bb7f5f841c/project/ef1e9c29-f173-4ae8-bc51-82fc45e25935.svg)](https://wakatime.com/badge/user/e56daee8-7aae-4b0e-814c-b6bb7f5f841c/project/ef1e9c29-f173-4ae8-bc51-82fc45e25935)
+
 # My Open Code Box - Web
-This is a open code box of developerasun, containing the sum of his blood, sweat, and tears. The list is as follows :  
 
-## Convention
-<details>
-  <summary>✅Commit</summary>
+This is a open code box of developerasun, containing the sum of his blood, sweat, and tears as to web development. The list is as follows:
 
-- feat: functionality added
-- fix: bug fixed, minor changes
-- chore: installing npms and other chores
-- refactor: refactoring existing codes
-- docs: readme and other markdowns
-</details>
+[myHTML](https://github.com/developerasun/myCodeBox-web/tree/main/myHTML)
 
-## Inputs
+[myCSS](https://github.com/developerasun/myCodeBox-web/tree/main/myCSS)
 
-<details>
-  <summary>✅Front End</summary>
-
-- myCSS, myHTML, myJavascript
- 
-</details>
-
-<details>
-  <summary>✅Backend</summary>
-
-- myJavascript
- 
-</details>
+[myJavascript](https://github.com/developerasun/myCodeBox-web/tree/main/myJavascript)
 
 ## Outputs
+
 <details>
   <summary>✅React</summary>
 
@@ -72,8 +55,10 @@ https://user-images.githubusercontent.com/83855174/148397581-6bd6ccef-3d55-4e3a-
 </details>
 
 ## Contact
+
 [![Gmail Badge](https://img.shields.io/badge/Gmail-d14836?style=flat-square&logo=Gmail&logoColor=white&link=mailto:designerasun@gmail.com)](mailto:designerasun@gmail.com)
 
 ## License 
+
 - This project is Apache-licensed.
-- Copyright © 2021 All right reserved [Jake Sung](https://github.com/developerasun) 
+- Copyright © 2022 All right reserved [Jake Sung](https://github.com/developerasun) 
