@@ -21,3 +21,4 @@ console.log([1] === [1]) // false
 const checkJake = jake // assign the same reference
 jake.sayHi() // hi, jake
 checkJake.sayHi() // hi, jake 
+console.log(checkJake === jake) // true, object compares by reference

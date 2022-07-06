@@ -285,6 +285,55 @@ $npm install react-redux
 
 > If performance is a concern, the best way to improve performance is to skip unnecessary re-renders, so that components only re-render when their data has actually changed. React Redux implements many performance optimizations internally, so that your own component only re-renders when it actually needs to.
 
+### Redux toolkit
+> The Redux Toolkit package is intended to be the standard way to write Redux logic. It was originally created to help address three common concerns about Redux:
+
+1. "Configuring a Redux store is too complicated"
+1. "I have to add a lot of packages to get Redux to do anything useful"
+1. "Redux requires too much boilerplate code"
+
+```shell
+$npm install @reduxjs/toolkit
+$yarn add @reduxjs/toolkit
+```
+
+> Types of methods, types, properties available in Redux toolkit are as follows :
+
+- createSlice : takes four arguments 1) slice name 2) initial state 3) reducer's' object 4) extraReducer(for async request)
+
+- createSlice.actions : Action creators for the **types of actions that are handled by the slice reducer**.
+
+- useSelector : A hook to **access the redux store's state**. This hook takes a selector function as an argument. The selector is called with the store state.
+
+- PayloadAction : An **action with a string type and an associated payload**. This is the type of action returned by createAction() action creators.
+
+- extraReducers : A property that **hooks createAsyncThunk with createSlice**. A callback that **receives a builder object** to define case reducers via calls to builder.addCase(actionCreatorOrType, reducer).
+
+- builder.addCase : Adds **a case reducer** to handle a single exact action type.
+
+- createEntityAdapter : A function that generates a set of **prebuilt reducers and selectors** for performing **CRUD operations** on a normalized state structure containing instances of a particular type of data object. 
+
+- getSelectors : a function that returns **a set of selectors** that know how to read the **contents of an entity state** object:
+
+> Note on shallow updates: **updateOne, updateMany, upsertOne, and upsertMany** only perform shallow updates in a mutable manner. This means that if your update/upsert consists of an object that includes nested properties, **the value of the incoming change will overwrite the entire existing nested object**. This may be unintended behavior for your application. As a general rule, these methods are best used with normalized data that do not have nested properties.
+
+#### Asynchronous request with Thunk
+> Dealing with asynchronous request is important in modern web application. In Redux, thunk and saga are well-known tools.
+
+> For Redux specifically, **"thunks" are a pattern of writing functions** with logic inside that can interact with a Redux store's dispatch and getState methods. Thunks are the standard approach for **writing async logic in Redux apps**, and are commonly used for data fetching. However, they can be used for a variety of tasks, and can contain both synchronous and asynchronous logic.
+
+> createAsyncThunk is a function that accepts a Redux **action type string and a callback function** that should return a promise. It generates promise lifecycle action types **based on the action type prefix** that you pass in, and **returns a thunk action creator** that will run the promise callback and dispatch the lifecycle actions based on the returned promise.
+
+> This abstracts the standard recommended approach for handling async request lifecycles.
+
+<img src="reference/asyncThunk-rejected.png" width=1000 height=520 />
+
+> type​ is a string that will be used to generate additional Redux action type constants, representing the lifecycle of an async request. For example, a type argument of 'users/requestStatus' will generate these action types:
+
+1. pending: 'users/requestStatus/pending'
+1. fulfilled: 'users/requestStatus/fulfilled'
+1. rejected: 'users/requestStatus/rejected'
+
 ### React Redux quick start
 > we assume that you're using Redux Toolkit and React Redux together, as that is the standard Redux usage pattern. The examples are based on a typical Create-React-App folder structure where all the application code is in a src, but the patterns can be adapted to whatever project or folder setup you're using.
 
@@ -411,3 +460,4 @@ export function Counter() {
 ## Reference
 - [Redux vs Context API: When to use them](https://dev.to/ruppysuppy/redux-vs-context-api-when-to-use-them-4k3p)
 - [Free code camp - Redux](https://www.freecodecamp.org/learn/front-end-development-libraries/#redux)
+- [Redux Toolkit](https://redux-toolkit.js.org/)

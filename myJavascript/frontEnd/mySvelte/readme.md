@@ -343,7 +343,7 @@ $: if (count >= 10) {
 
 > Like any other attribute, you can specify classes with a JavaScript attribute, seen below. This is such a common pattern in UI development that Svelte includes a special directive to simplify it:
 
-```svelte
+```sveltek
 <button
 	class:selected="{current === 'foo'}"
 	on:click="{() => current = 'foo'}"
