@@ -1,9 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
+import { QuizService } from './quiz.service';
 
-@Controller('quizcontroller')
+@Controller('quiz') // route
 export class QuizcontrollerController {
+  // nest js manages the instantiation of the injected class
+  constructor(private quizService: QuizService) {}
   @Get('/')
-  getAllQuiz() {
-    return [1, 2, 3];
+  getAllQuizzes() {
+    return this.quizService.getAllQuizzes(); // the injected instantiation
   }
 }
