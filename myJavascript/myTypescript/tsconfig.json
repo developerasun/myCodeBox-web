@@ -91,6 +91,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "src1"
+    "./src/**/*"
   ] // specify a directory where compiler will compile
 }
